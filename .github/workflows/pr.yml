@@ -1,0 +1,23 @@
+name: Add Tag on PR to Integration
+
+on:
+  pull_request:
+    branches:
+      - integracion
+
+jobs:
+  add_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set tag name
+        run: echo "TAG_NAME=poc-spy-mvc-dev" >> $GITHUB_ENV
+
+      - name: Create and push tag
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
